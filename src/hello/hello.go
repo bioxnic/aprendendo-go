@@ -1,26 +1,15 @@
 package main
 
 import "fmt"
+import "os"
 
 func main() {
-	// tipos não precisam ser inferidos
-	// Não precisa usar var, atribuidor rápido :=
-	// Quando não inicializadas o valor atribuido é 0
 
-	nome := "allan"
-	versao := 1.1
-	fmt.Println("Olá", nome)
-	fmt.Println("Versão do programa: ", versao)
+	exibeIntroducao()
 
-	fmt.Println("1 - Iniciar Monitoramento")
-	fmt.Println("2 - Exibir Logs")
-	fmt.Println("0 - Sair do Programa")
+	exibeMenu()
 
-	var comando int
-	// fmt.Scanf(&comando) // para inferir o tipo
-	fmt.Scanf("%d", &comando)
-	fmt.Println("O comando escolhido foi", comando)
-
+	comando := leComando()
 	// if comando == 1 {
 	// 	fmt.Println("Monitorando...")
 	// } else if comando == 2 {
@@ -39,8 +28,34 @@ func main() {
 		fmt.Println("Exibindo logs...")
 	case 0:
 		fmt.Println("Saindo do programa...")
+		os.Exit(0)
 	default:
 		fmt.Println("Não conheço este comando:", comando)
+		os.Exit(-1)
 	}
 
+}
+
+func exibeIntroducao() {
+	// tipos não precisam ser inferidos
+	// Não precisa usar var, atribuidor rápido :=
+	// Quando não inicializadas o valor atribuido é 0
+
+	nome := "allan"
+	versao := 1.1
+	fmt.Println("Olá", nome)
+	fmt.Println("Versão do programa: ", versao)
+}
+func leComando() int {
+	var comandoLido int
+	// fmt.Scanf(&comando) // para inferir o tipo
+	fmt.Scanf("%d", &comandoLido)
+	fmt.Println("O comando escolhido foi", comandoLido)
+	return comandoLido
+}
+
+func exibeMenu() {
+	fmt.Println("1 - Iniciar Monitoramento")
+	fmt.Println("2 - Exibir Logs")
+	fmt.Println("0 - Sair do Programa")
 }
