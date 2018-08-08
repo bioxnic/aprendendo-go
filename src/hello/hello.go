@@ -2,13 +2,17 @@ package main
 
 import "fmt"
 import "os"
+import "net/http"
 
 func main() {
 
 	exibeIntroducao()
 
 	exibeMenu()
+	//ignorando primeira var
+	_, idade := devolveNomeEIdade()
 
+	fmt.Println("idade", idade)
 	comando := leComando()
 	// if comando == 1 {
 	// 	fmt.Println("Monitorando...")
@@ -24,6 +28,7 @@ func main() {
 	switch comando {
 	case 1:
 		fmt.Println("Monitorando...")
+		iniciarMonitoramento()
 	case 2:
 		fmt.Println("Exibindo logs...")
 	case 0:
@@ -58,4 +63,17 @@ func exibeMenu() {
 	fmt.Println("1 - Iniciar Monitoramento")
 	fmt.Println("2 - Exibir Logs")
 	fmt.Println("0 - Sair do Programa")
+}
+
+func iniciarMonitoramento() {
+	site := "http://www.alura.com.br"
+	resp, _ := http.Get(site)
+
+	fmt.Println(resp)
+}
+
+func devolveNomeEIdade() (string, int) {
+	nome := "Allan"
+	idade := 18
+	return nome, idade
 }
