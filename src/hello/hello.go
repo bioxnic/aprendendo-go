@@ -4,9 +4,14 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 )
 
+const monitoramentos = 3
+const delay = 5
+
 func main() {
+	// exibeNomes()
 	exibeIntroducao()
 
 	for {
@@ -70,8 +75,47 @@ func exibeMenu() {
 }
 
 func iniciarMonitoramento() {
-	// site := "http://www.alura.com.br"
-	site := "https://random-status-code.herokuapp.com"
+	// var sites [4]string
+	// sites[0] = "https://random-status-code.herokuapp.com"
+	// sites[1] = "https://www.alura.com.br"
+	// sites[2] = "https://www.caelum.com.br"
+	sites := []string{"https://random-status-code.herokuapp.com", "https://www.alura.com.br", "https://www.caelum.com.br"}
+
+	for i := 0; i < monitoramentos; i++ {
+		for i, site := range sites {
+			fmt.Println("Site", i, ":", site)
+			testaSite(site)
+			time.Sleep(delay * time.Second)
+			fmt.Println("")
+		}
+	}
+
+	fmt.Println("")
+}
+
+func devolveNomeEIdade() (string, int) {
+	nome := "Allan"
+	idade := 18
+	return nome, idade
+}
+
+// Quando atingir o limite da capacidade, ela é dobrada
+// No fundo o slice é um array
+func exibeNomes() {
+	nomes := []string{"Douglas", "Daniel", "Bernardo"}
+	fmt.Println("Nomes:", nomes)
+	fmt.Println("Tamanho do slice:", len(nomes))
+	fmt.Println("Capacidade slice:", cap(nomes))
+
+	nomes = append(nomes, "Aparecida")
+
+	fmt.Println("Nomes:", nomes)
+	fmt.Println("Tamanho do slice:", len(nomes))
+	fmt.Println("Capacidade slice:", cap(nomes))
+
+}
+
+func testaSite(site string) {
 	resp, _ := http.Get(site)
 
 	if resp.StatusCode == 200 {
@@ -79,10 +123,4 @@ func iniciarMonitoramento() {
 	} else {
 		fmt.Println("Site:", site, "está com problemas. Status code", resp.StatusCode)
 	}
-}
-
-func devolveNomeEIdade() (string, int) {
-	nome := "Allan"
-	idade := 18
-	return nome, idade
 }
