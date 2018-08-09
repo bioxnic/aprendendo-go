@@ -1,42 +1,46 @@
 package main
 
-import "fmt"
-import "os"
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+	"os"
+)
 
 func main() {
-
 	exibeIntroducao()
 
-	exibeMenu()
-	//ignorando primeira var
-	_, idade := devolveNomeEIdade()
+	for {
 
-	fmt.Println("idade", idade)
-	comando := leComando()
-	// if comando == 1 {
-	// 	fmt.Println("Monitorando...")
-	// } else if comando == 2 {
-	// 	fmt.Println("Exibindo logs...")
-	// } else if comando == 0 {
-	// 	fmt.Println("Saindo do programa...")
-	// } else {
-	// 	fmt.Println("Não conheço este comando:", comando)
-	// }
+		exibeMenu()
+		//ignorando primeira var
+		_, idade := devolveNomeEIdade()
 
-	// Não precisa de breaks
-	switch comando {
-	case 1:
-		fmt.Println("Monitorando...")
-		iniciarMonitoramento()
-	case 2:
-		fmt.Println("Exibindo logs...")
-	case 0:
-		fmt.Println("Saindo do programa...")
-		os.Exit(0)
-	default:
-		fmt.Println("Não conheço este comando:", comando)
-		os.Exit(-1)
+		fmt.Println("idade", idade)
+		comando := leComando()
+		// if comando == 1 {
+		// 	fmt.Println("Monitorando...")
+		// } else if comando == 2 {
+		// 	fmt.Println("Exibindo logs...")
+		// } else if comando == 0 {
+		// 	fmt.Println("Saindo do programa...")
+		// } else {
+		// 	fmt.Println("Não conheço este comando:", comando)
+		// }
+
+		// Não precisa de breaks
+		switch comando {
+		case 1:
+			fmt.Println("Monitorando...")
+			iniciarMonitoramento()
+		case 2:
+			fmt.Println("Exibindo logs...")
+		case 0:
+			fmt.Println("Saindo do programa...")
+			os.Exit(0)
+		default:
+			fmt.Println("Não conheço este comando:", comando)
+			os.Exit(-1)
+		}
 	}
 
 }
@@ -66,10 +70,15 @@ func exibeMenu() {
 }
 
 func iniciarMonitoramento() {
-	site := "http://www.alura.com.br"
+	// site := "http://www.alura.com.br"
+	site := "https://random-status-code.herokuapp.com"
 	resp, _ := http.Get(site)
 
-	fmt.Println(resp)
+	if resp.StatusCode == 200 {
+		fmt.Println("Site:", site, "foi carregado com sucesso!")
+	} else {
+		fmt.Println("Site:", site, "está com problemas. Status code", resp.StatusCode)
+	}
 }
 
 func devolveNomeEIdade() (string, int) {
